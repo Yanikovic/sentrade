@@ -3,8 +3,7 @@ from abc import ABC, abstractmethod
 
 import asyncio
 
-from reddit_config import get_reddit
-
+from core.connectors.reddit.reddit_config import asyncpraw_reddit
 
 
 class RedditProducer(ABC):
@@ -12,7 +11,7 @@ class RedditProducer(ABC):
     def __init__(self, 
                  subreddit_name: str,
                  flairs: List[str]):
-        self.reddit = get_reddit()
+        self.reddit = asyncpraw_reddit()
         self.subreddit_name = subreddit_name
         self.flairs = flairs
 
@@ -37,6 +36,5 @@ class LiveRedditProducer(RedditProducer):
     async def publish(self, queue: asyncio.Queue) -> None:
         await super().init_subreddit()
         async for comment in self.subreddit.stream.comments(skip_existing=True):
-            # 
             await queue.put(comment)
-                
+

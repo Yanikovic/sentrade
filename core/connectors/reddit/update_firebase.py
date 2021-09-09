@@ -1,10 +1,11 @@
 #!/usr/bin/python3
-
-from sample_reddit import RedditSampler
 from firebase_admin import (credentials, firestore, initialize_app)
 from firebase_admin.firestore import SERVER_TIMESTAMP
 
-cred = credentials.Certificate("config/firebase_credentials.json")
+from sample_reddit import RedditSampler
+
+
+cred = credentials.Certificate("firebase_credentials.json")
 initialize_app(cred)
 
 firestore_db = firestore.client()
@@ -14,6 +15,7 @@ rs = RedditSampler()
 sample = rs.sample()
 num_sents = 0
 
+print("Start inserting into firestore...")
 for comment in sample: 
     comment["created"] = SERVER_TIMESTAMP
     comment_id = firestore_db.collection('comments').add(comment)
