@@ -1,0 +1,3 @@
+[submodule "frontend/sentradeLabeling"]
+	path = frontend/sentradeLabeling
+	url = https://github.com/mwohlan/sentradeLabeling.git
